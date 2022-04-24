@@ -1,0 +1,20 @@
+<form [formGroup]="ticketForm" (ngSubmit)="submitTicketForm()">
+	<input type="hidden" formControlName="id" />
+	<mat-form-field appearance="outline">
+		<mat-label>Ticket description</mat-label>
+		<input matInput type="text" formControlName="description" />
+		<mat-error>This field is required.</mat-error>
+	</mat-form-field>
+	<mat-form-field appearance="outline">
+		<mat-label>Ticket assignee</mat-label>
+		<mat-select formControlName="assigneeId">
+			<mat-option [value]="null">-</mat-option>
+			<mat-option *ngFor="let user of users; trackBy: user?.id" [value]="user.id">{{ user.name }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-checkbox formControlName="completed" *ngIf="ticketUpdate">Completed</mat-checkbox>
+	<button mat-raised-button color="primary" type="submit" [disabled]="ticketForm.invalid || ticketForm.pristine">
+		{{ ticketUpdate ? "Update ticket" : "Create ticket" }}
+	</button>
+	<button mat-raised-button color="warn" type="button" [routerLink]="['/']">Cancel</button>
+</form>

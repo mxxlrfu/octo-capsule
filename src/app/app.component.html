@@ -1,0 +1,9 @@
+<h1 [routerLink]="['/']">TICKETS</h1>
+<mat-divider></mat-divider>
+<section>
+	<router-outlet></router-outlet>
+</section>
+
+<div class="store-error" *ngIf="storeError | async">
+	An Error Occured. <button (click)="resetTicketError()">Dismiss</button>
+</div>

@@ -1,0 +1,29 @@
+<div class="ticket-options">
+	<button mat-raised-button color="primary" [routerLink]="['/ticket']">CREATE TICKET</button>
+	<button mat-raised-button (click)="toggleView()">{{ viewAll ? 'Show unassigned' : 'Show all' }}</button>
+</div>
+<mat-divider></mat-divider>
+<section>
+	<mat-list>
+		<mat-list-item>
+			<div class="ticket-details">
+				<div class="ticket-description"><b>Label</b></div>
+				<div class="ticket-assignee"><mat-icon>person</mat-icon></div>
+				<div class="ticket-completed"><mat-icon>done</mat-icon></div>
+			</div>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+		<mat-list-item matRipple *ngFor="let ticket of tickets$ | async | filterUnassignedTickets: viewAll; trackBy: ticket?.id" [routerLink]="['/ticket', ticket.id]">
+			<div class="ticket-details">
+				<div class="ticket-description">{{ ticket.description }}</div>
+				<div class="ticket-assignee">{{ ticket.assigneeId | assigneeIdToName: users }}</div>
+				<div class="ticket-completed">
+					<mat-icon [color]="ticket.completed ? 'primary' : ''">{{
+						ticket.completed ? "done" : "hourglass_bottom"
+					}}</mat-icon>
+				</div>
+			</div>
+			<mat-divider></mat-divider>
+		</mat-list-item>
+	</mat-list>
+</section>
