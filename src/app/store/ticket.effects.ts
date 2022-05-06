@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { catchError, map, switchMap } from "rxjs/operators";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { Injectable } from '@angular/core';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import * as ticketActions from "@store/ticket.actions";
-import { BackendService } from "@services/backend.service";
-import { Ticket } from "@interfaces/index";
-import { of } from "rxjs";
+import * as ticketActions from '@store/ticket.actions';
+import { BackendService } from '@services/backend.service';
+import { Ticket } from '@interfaces/index';
+import { of } from 'rxjs';
 
 @Injectable()
 export class TicketEffects {
@@ -41,5 +41,5 @@ export class TicketEffects {
 		)
 	);
 
-	constructor(private readonly actions$: Actions, private readonly service: BackendService) {}
+	constructor(private readonly actions$: Actions, private service: BackendService) {}
 }

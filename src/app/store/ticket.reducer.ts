@@ -1,11 +1,12 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
-import { Action, createReducer, on } from "@ngrx/store";
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Action, createReducer, on } from '@ngrx/store';
 
-import { Ticket } from "@interfaces/index";
-import * as TicketActions from "./ticket.actions";
+import { Ticket } from '@interfaces/index';
+import * as TicketActions from './ticket.actions';
 
 export interface State extends EntityState<Ticket> {
 	selectedId: string | null;
+	loading: boolean;
 	error: string | null;
 }
 
@@ -13,6 +14,7 @@ export const adapter: EntityAdapter<Ticket> = createEntityAdapter<Ticket>();
 
 export const initialState: State = adapter.getInitialState({
 	selectedId: null,
+	loading: false,
 	error: null,
 });
 
@@ -31,8 +33,23 @@ export const ticketReducer = createReducer(
 		return { ...state, selectedId: ticketId };
 	}),
 	on(TicketActions.resetTicketError, (state) => {
-		return { ...state, error: null };
+		return { ...state, ...{ error: null, loading: false } };
 	}),
+	on(TicketActions.createTicket, TicketActions.selectTicketList, TicketActions.updateTicket, (state) => {
+		return { ...state, loading: true };
+	}),
+	on(
+		TicketActions.createTicketError,
+		TicketActions.createTicketSuccess,
+		TicketActions.selectTicketError,
+		TicketActions.selectTicketListError,
+		TicketActions.selectTicketListSuccess,
+		TicketActions.updateTicketError,
+		TicketActions.updateTicketSuccess,
+		(state) => {
+			return { ...state, loading: false };
+		}
+	),
 	on(
 		TicketActions.createTicketError,
 		TicketActions.selectTicketError,

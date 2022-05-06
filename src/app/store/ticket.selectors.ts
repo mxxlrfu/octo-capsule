@@ -13,6 +13,8 @@ export const selectTicketEntitiesArray = createSelector(selectTicketEntities, (e
 
 export const selectTicketError = createSelector(selectTicketState, ({ error }) => error);
 
+export const selectLoadingStatus = createSelector(selectTicketState, ({ loading }) => loading);
+
 export const selectSelectedTicket = createSelector(
 	selectSelectedId,
 	selectTicketEntities,

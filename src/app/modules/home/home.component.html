@@ -1,5 +1,8 @@
 <div class="ticket-options">
 	<button mat-raised-button color="primary" [routerLink]="['/ticket']">CREATE TICKET</button>
+	<form [formGroup]="form">
+		<input type="text" formControlName="userInput">
+	</form>
 	<button mat-raised-button (click)="toggleView()">{{ viewAll ? 'Show unassigned' : 'Show all' }}</button>
 </div>
 <mat-divider></mat-divider>
@@ -13,7 +16,7 @@
 			</div>
 			<mat-divider></mat-divider>
 		</mat-list-item>
-		<mat-list-item matRipple *ngFor="let ticket of tickets$ | async | filterUnassignedTickets: viewAll; trackBy: ticket?.id" [routerLink]="['/ticket', ticket.id]">
+		<mat-list-item matRipple *ngFor="let ticket of tickets$ | async | filterUnassignedTickets: filteredTickets: viewAll; trackBy: ticket?.id" [routerLink]="['/ticket', ticket.id]">
 			<div class="ticket-details">
 				<div class="ticket-description">{{ ticket.description }}</div>
 				<div class="ticket-assignee">{{ ticket.assigneeId | assigneeIdToName: users }}</div>

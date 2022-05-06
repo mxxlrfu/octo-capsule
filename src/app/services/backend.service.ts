@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { Observable, of, throwError } from "rxjs";
-import { delay } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
 
-import { Ticket, User } from "@interfaces/index";
+import { Ticket, User } from '@interfaces/index';
 /**
  * This service acts as a mock backend.
  *
@@ -10,35 +10,35 @@ import { Ticket, User } from "@interfaces/index";
  */
 
 function randomDelay() {
-	return Math.random() * 1000;
+	return 10000;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BackendService {
 	storedTickets: Ticket[] = [
 		{
 			id: 0,
-			description: "Install a monitor arm",
+			description: 'Install a monitor arm',
 			assigneeId: 111,
 			completed: true,
 		},
 		{
 			id: 1,
-			description: "Move the desk to the new location",
+			description: 'Move the desk to the new location',
 			assigneeId: 222,
 			completed: false,
 		},
 		{
 			id: 2,
-			description: "New task",
+			description: 'New task',
 			assigneeId: null,
 			completed: false,
 		},
 	];
 
 	storedUsers: User[] = [
-		{ id: 111, name: "Victor" },
-		{ id: 222, name: "Jack" },
+		{ id: 111, name: 'Victor' },
+		{ id: 222, name: 'Jack' },
 	];
 
 	lastId = 2;
@@ -84,11 +84,11 @@ export class BackendService {
 		return this.update(ticketId, { completed });
 	}
 
-	update(ticketId: number | string, updates: Partial<Omit<Ticket, "id">>) {
+	update(ticketId: number | string, updates: Partial<Omit<Ticket, 'id'>>) {
 		const foundTicket = this.findTicketById(ticketId);
 
 		if (!foundTicket) {
-			return throwError(new Error("ticket not found"));
+			return throwError(new Error('ticket not found'));
 		}
 
 		const updatedTicket = { ...foundTicket, ...updates };

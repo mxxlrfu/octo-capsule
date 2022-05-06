@@ -7,6 +7,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { TicketEffects, ticketReducer } from "@store/index";
 import { RouterModule } from "@angular/router";
 import { AssigneeIdToNamePipe, FilterUnassignedTickets } from "./pipes";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
 	declarations: [HomeComponent, AssigneeIdToNamePipe, FilterUnassignedTickets],
@@ -14,6 +15,7 @@ import { AssigneeIdToNamePipe, FilterUnassignedTickets } from "./pipes";
 		CommonModule,
 		RouterModule,
 		SharedModule,
+		ReactiveFormsModule,
 		StoreModule.forFeature("ticket", ticketReducer),
 		EffectsModule.forFeature([TicketEffects]),
 	],

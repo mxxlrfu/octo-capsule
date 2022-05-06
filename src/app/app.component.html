@@ -7,3 +7,5 @@
 <div class="store-error" *ngIf="storeError | async">
 	An Error Occured. <button (click)="resetTicketError()">Dismiss</button>
 </div>
+
+<app-loader [show]="loading | async"></app-loader>

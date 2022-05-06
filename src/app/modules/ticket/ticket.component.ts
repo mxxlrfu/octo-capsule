@@ -22,6 +22,8 @@ export class TicketComponent implements OnInit {
 	ticketUpdate = this.route.snapshot.paramMap.get("id");
 	users = this.userService.storedUsers;
 
+	isLoading = this.store.select(ticketSelectors.selectLoadingStatus);
+
 	constructor(
 		private readonly route: ActivatedRoute,
 		private readonly router: Router,
@@ -42,6 +44,7 @@ export class TicketComponent implements OnInit {
 			this.store.dispatch(ticketActions.selectTicket({ ticketId: this.ticketUpdate }));
 			this.hydrateTicketForm();
 		}
+
 	}
 
 	submitTicketForm(): void {
@@ -52,7 +55,12 @@ export class TicketComponent implements OnInit {
 			: ticketActions.createTicket({ ticket });
 
 		this.store.dispatch(actionType);
-		this.router.navigate(["/"]);
+
+		this.isLoading.pipe(
+			filter(loadingStatus => !loadingStatus),
+			tap(() => this.router.navigate(['/'])),
+			take(1)
+		).subscribe();
 	}
 
 	private hydrateTicketForm(): void {

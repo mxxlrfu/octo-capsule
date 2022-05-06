@@ -3,6 +3,7 @@ import { Store } from "@ngrx/store";
 
 import * as ticketActions from "@store/ticket.actions";
 import * as ticketSelectors from "@store/ticket.selectors";
+import { BackendService } from "./services";
 
 @Component({
 	selector: "app-root",
@@ -12,6 +13,8 @@ import * as ticketSelectors from "@store/ticket.selectors";
 })
 export class AppComponent implements OnInit {
 	storeError = this.store.select(ticketSelectors.selectTicketError);
+
+	loading = this.store.select(ticketSelectors.selectLoadingStatus);
 
 	constructor(private readonly store: Store) {}
 
